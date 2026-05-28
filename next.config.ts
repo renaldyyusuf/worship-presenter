@@ -1,9 +1,8 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  experimental: {
-    serverComponentsExternalPackages: ['socket.io'],
-  },
+  // Renamed from experimental.serverComponentsExternalPackages in Next.js 15.3+
+  serverExternalPackages: ['socket.io'],
   images: {
     remotePatterns: [
       {
