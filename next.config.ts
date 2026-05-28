@@ -1,8 +1,6 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  // Custom server handles socket.io, so we disable the default one
-  // when running in dev with `tsx server.ts`
   experimental: {
     serverComponentsExternalPackages: ['socket.io'],
   },
@@ -15,12 +13,10 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // Security headers
   async headers() {
     return [
       {
-        // Output and stage pages — allow embedding in OBS browser source etc.
-        source: '/(output|stage)',
+        source: '/(output|stage|countdown)',
         headers: [
           { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
           { key: 'X-Content-Type-Options', value: 'nosniff' },
