@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 4%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 6%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 238 84% 67%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 9%;
+    --secondary-foreground: 0 0% 80%;
+    --muted: 0 0% 8%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 0 0% 10%;
+    --accent-foreground: 0 0% 90%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 100% / 0.07;
+    --input: 0 0% 100% / 0.06;
+    --ring: 238 84% 67%;
+    --radius: 0.5rem;
+  }
+
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+  /* Focus ring */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  /* Selection */
+  ::selection {
+    background: rgba(99, 102, 241, 0.3);
+    color: white;
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+
+  /* Slide transition for presentation */
+  .slide-enter { animation: slideEnter 0.35s ease-out forwards; }
+  .slide-exit  { animation: slideExit 0.35s ease-out forwards; }
+
+  @keyframes slideEnter {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideExit {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+  }
+
+  /* Presentation cross-fade */
+  .cross-fade { animation: crossFade 0.4s ease-out forwards; }
+  @keyframes crossFade {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+}
+
+/* ─── Slide transition animations ────────────── */
+@keyframes fadeIn       { from { opacity: 0 }           to { opacity: 1 } }
+@keyframes fadeOut      { from { opacity: 1 }           to { opacity: 0 } }
+@keyframes slideUpIn    { from { opacity: 0; transform: translateY(24px) }  to { opacity: 1; transform: translateY(0) } }
+@keyframes slideDownOut { from { opacity: 1; transform: translateY(0) }     to { opacity: 0; transform: translateY(-24px) } }
+@keyframes slideDownIn  { from { opacity: 0; transform: translateY(-24px) } to { opacity: 1; transform: translateY(0) } }
+@keyframes slideUpOut   { from { opacity: 1; transform: translateY(0) }     to { opacity: 0; transform: translateY(24px) } }
+@keyframes zoomIn       { from { opacity: 0; transform: scale(0.96) }       to { opacity: 1; transform: scale(1) } }
+@keyframes zoomOut      { from { opacity: 1; transform: scale(1) }          to { opacity: 0; transform: scale(1.04) } }
+
+.animate-fadeIn       { animation: fadeIn       0.4s ease-out forwards; }
+.animate-fadeOut      { animation: fadeOut      0.4s ease-out forwards; }
+.animate-slideUpIn    { animation: slideUpIn    0.4s ease-out forwards; }
+.animate-slideDownOut { animation: slideDownOut 0.4s ease-out forwards; }
+.animate-slideDownIn  { animation: slideDownIn  0.4s ease-out forwards; }
+.animate-slideUpOut   { animation: slideUpOut   0.4s ease-out forwards; }
+.animate-zoomIn       { animation: zoomIn       0.4s ease-out forwards; }
+.animate-zoomOut      { animation: zoomOut      0.4s ease-out forwards; }
+
+/* Variable-duration overrides for configurable transitions */
+.transition-duration-200 { animation-duration: 200ms !important; }
+.transition-duration-400 { animation-duration: 400ms !important; }
+.transition-duration-600 { animation-duration: 600ms !important; }
+.transition-duration-800 { animation-duration: 800ms !important; }

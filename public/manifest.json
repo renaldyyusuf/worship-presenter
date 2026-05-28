@@ -1,0 +1,61 @@
+{
+  "name": "WorshipPresenter",
+  "short_name": "Worship",
+  "description": "Modern church presentation software — lyrics, Bible, stage display, service flow",
+  "start_url": "/control",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/control.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Operator Dashboard"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Control",
+      "short_name": "Control",
+      "url": "/control",
+      "description": "Main operator dashboard"
+    },
+    {
+      "name": "Songs",
+      "short_name": "Songs",
+      "url": "/songs",
+      "description": "Song library"
+    },
+    {
+      "name": "Bible",
+      "short_name": "Bible",
+      "url": "/bible",
+      "description": "Bible search"
+    },
+    {
+      "name": "Stage",
+      "short_name": "Stage",
+      "url": "/stage",
+      "description": "Stage display"
+    }
+  ]
+}
