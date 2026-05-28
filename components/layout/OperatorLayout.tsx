@@ -196,6 +196,9 @@ function BottomBar() {
           />
         </div>
       )}
+
+      {/* Current slide text */}
+      {currentSlide && (
         <>
           <div className="h-4 w-px bg-white/[0.08] ml-1" />
           <div className="flex items-center gap-2 min-w-0 flex-1">
