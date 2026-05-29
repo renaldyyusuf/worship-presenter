@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase'
 
-type Params = { params: { id: string; itemId: string } }
+type Params = { params: Promise<{ id: string; itemId: string }> }
 
 export async function PATCH(req: NextRequest, { params }: Params) {
+  const { id, itemId } = await params;
   const supabase = createServerClient()
   const body = await req.json()
   const update: any = {}
@@ -15,8 +16,8 @@ export async function PATCH(req: NextRequest, { params }: Params) {
   const { data, error } = await supabase
     .from('service_items')
     .update(update)
-    .eq('id', params.itemId)
-    .eq('plan_id', params.id)
+    .eq('id', itemId)
+    .eq('plan_id', id)
     .select()
     .single()
 
@@ -25,12 +26,13 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 }
 
 export async function DELETE(_req: NextRequest, { params }: Params) {
+  const { id, itemId } = await params;
   const supabase = createServerClient()
   const { error } = await supabase
     .from('service_items')
     .delete()
-    .eq('id', params.itemId)
-    .eq('plan_id', params.id)
+    .eq('id', itemId)
+    .eq('plan_id', id)
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ success: true })
