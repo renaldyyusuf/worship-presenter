@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase'
 
-type Params = { params: { id: string } }
+type Params = { params: Promise<{ id: string }> }
 
 // ─── POST /api/service/[id]/items ────────────
 export async function POST(req: NextRequest, { params }: Params) {
+  const { id } = await params;
   const supabase = createServerClient()
   const body = await req.json()
 
@@ -12,7 +13,7 @@ export async function POST(req: NextRequest, { params }: Params) {
   const { data: existing } = await supabase
     .from('service_items')
     .select('sort_order')
-    .eq('plan_id', params.id)
+    .eq('plan_id', id)
     .order('sort_order', { ascending: false })
     .limit(1)
     .single()
@@ -22,7 +23,7 @@ export async function POST(req: NextRequest, { params }: Params) {
   const { data, error } = await supabase
     .from('service_items')
     .insert({
-      plan_id: params.id,
+      plan_id: id,
       type: body.type,
       ref_id: body.refId || null,
       title: body.title,
