@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase'
 
-type Params = { params: { id: string } }
+type Params = { params: Promise<{ id: string }> }
 
 export async function PATCH(req: NextRequest, { params }: Params) {
+  const { id } = await params;
   const supabase = createServerClient()
   const body = await req.json()
   const update: Record<string, any> = {}
@@ -23,7 +24,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
   const { data, error } = await supabase
     .from('themes')
     .update(update)
-    .eq('id', params.id)
+    .eq('id', id)
     .select()
     .single()
 
@@ -32,13 +33,14 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 }
 
 export async function DELETE(_req: NextRequest, { params }: Params) {
+  const { id } = await params;
   const supabase = createServerClient()
   // Prevent deleting default theme
-  const { data: theme } = await supabase.from('themes').select('is_default').eq('id', params.id).single()
+  const { data: theme } = await supabase.from('themes').select('is_default').eq('id', id).single()
   if (theme?.is_default) {
     return NextResponse.json({ error: 'Cannot delete the default theme' }, { status: 400 })
   }
-  const { error } = await supabase.from('themes').delete().eq('id', params.id)
+  const { error } = await supabase.from('themes').delete().eq('id', id)
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ success: true })
 }
