@@ -10,7 +10,6 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { usePresentationStore } from '@/stores/presentation.store'
-import { usePresentationStore } from '@/stores/presentation.store'
 import { SocketProvider } from '@/components/shared/SocketProvider'
 import { ConnectionStatus } from '@/components/shared/ConnectionStatus'
 import { KeyboardShortcutsOverlay } from '@/components/shared/KeyboardShortcutsOverlay'
