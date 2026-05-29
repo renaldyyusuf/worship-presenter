@@ -2,14 +2,15 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase'
 import { parseLyricsToSections, sectionsToSlides } from '@/lib/lyrics-parser'
 
-type Params = { params: { id: string } }
+type Params = { params: Promise<{ id: string }> }
 
 export async function GET(_req: NextRequest, { params }: Params) {
+  const { id } = await params;
   const supabase = createServerClient()
   const { data, error } = await supabase
     .from('songs')
     .select('*')
-    .eq('id', params.id)
+    .eq('id', id)
     .single()
 
   if (error) return NextResponse.json({ error: error.message }, { status: 404 })
@@ -17,6 +18,7 @@ export async function GET(_req: NextRequest, { params }: Params) {
 }
 
 export async function PATCH(req: NextRequest, { params }: Params) {
+  const { id } = await params;
   const supabase = createServerClient()
   const body = await req.json()
   const { title, artist, album, year, ccliNumber, copyright, lyrics, tags, category, favorite, themeId } = body
@@ -37,7 +39,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
   if (lyrics !== undefined) {
     update.lyrics = lyrics
     const sections = parseLyricsToSections(lyrics)
-    const resolvedTitle = title ?? (await supabase.from('songs').select('title').eq('id', params.id).single()).data?.title ?? ''
+    const resolvedTitle = title ?? (await supabase.from('songs').select('title').eq('id', id).single()).data?.title ?? ''
     update.sections = sections as any
     update.slides = sectionsToSlides(sections, resolvedTitle) as any
   }
@@ -45,7 +47,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
   const { data, error } = await supabase
     .from('songs')
     .update(update)
-    .eq('id', params.id)
+    .eq('id', id)
     .select()
     .single()
 
@@ -54,8 +56,9 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 }
 
 export async function DELETE(_req: NextRequest, { params }: Params) {
+  const { id } = await params;
   const supabase = createServerClient()
-  const { error } = await supabase.from('songs').delete().eq('id', params.id)
+  const { error } = await supabase.from('songs').delete().eq('id', id)
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ success: true })
 }
