@@ -3,16 +3,17 @@ import { createServerClient } from '@/lib/supabase'
 import { exportServicePlanHtml, exportServicePlanText } from '@/lib/export'
 import type { ServicePlan, ServiceItem } from '@/types'
 
-type Params = { params: { id: string } }
+type Params = { params: Promise<{ id: string }> }
 
 export async function GET(req: NextRequest, { params }: Params) {
+  const { id } = await params;
   const supabase = createServerClient()
   const format   = new URL(req.url).searchParams.get('format') ?? 'html'
 
   const { data, error } = await supabase
     .from('service_plans')
     .select('*, service_items(*)')
-    .eq('id', params.id)
+    .eq('id', id)
     .single()
 
   if (error || !data) {
