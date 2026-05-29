@@ -19,8 +19,7 @@ import { printHtml, downloadFile, exportServicePlanText } from '@/lib/export'
 import { useServiceStore } from '@/stores/service.store'
 import { useSongsStore } from '@/stores/songs.store'
 import type { ServiceItem, ServiceItemType } from '@/types'
-import { cn } from '@/lib/utils'
-import { formatServiceDate } from '@/lib/utils'
+import { cn, formatServiceDate } from '@/lib/utils'
 
 const TYPE_META: Record<ServiceItemType, { icon: React.ElementType; color: string; label: string }> = {
   song:         { icon: Music2,      color: 'text-indigo-400',  label: 'Song' },
