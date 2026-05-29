@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase'
 
-type Params = { params: { id: string } }
+type Params = { params: Promise<{ id: string }> }
 
 // POST /api/service/[id]/reorder
 // Body: { items: [{ id: string, sortOrder: number }] }
 export async function POST(req: NextRequest, { params }: Params) {
+  const { id } = await params;
   const supabase = createServerClient()
   const { items } = await req.json()
 
@@ -19,7 +20,7 @@ export async function POST(req: NextRequest, { params }: Params) {
       .from('service_items')
       .update({ sort_order: sortOrder })
       .eq('id', id)
-      .eq('plan_id', params.id)
+      .eq('plan_id', id)
   )
 
   const results = await Promise.all(updates)
