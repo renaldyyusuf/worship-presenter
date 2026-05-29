@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useStageStore } from '@/stores/stage-theme.store'
 import { SocketProvider } from '@/components/shared/SocketProvider'
+import { getSocket } from '@/lib/socket'
 import { cn } from '@/lib/utils'
 
 export default function StagePage() {
@@ -98,7 +99,7 @@ function ServiceContextWidget() {
   const [context, setContext] = useState<{title:string;index:number;total:number} | null>(null)
   
   useEffect(() => {
-    const socket = require('@/lib/socket').getSocket()
+    const socket = getSocket()
     socket.on('service:sync', (payload: any) => {
       const item = payload.items?.[payload.activeItemIndex]
       if (item) {
